@@ -3,7 +3,7 @@ import App from "./App";
 
 test("sum", () => {
 
-    const { getByText } = render(<App />) 
+    const { getByText, getByRole } = render(<App />) 
 
     expect(getByText('Hello Word')).toBeTruthy()
 

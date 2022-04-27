@@ -1,6 +1,17 @@
-function App() {
+import { useState } from "react";
 
-  return <div className="App"></div>;
+function App() {
+  const [username, setUsername] = useState<string>("");
+  return (
+    <div className="App">
+      <input
+        placeholder="Username..."
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+      />
+      <button onClick={()=> setUsername("")}>Send</button>
+    </div>
+  );
 }
 
 export default App;

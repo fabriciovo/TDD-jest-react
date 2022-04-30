@@ -39,4 +39,15 @@ describe("Register", () => {
     expect(inpuElement.value).toBe("");
   });
 
+  it("Should send User Data", async () => {
+    const component = render(<MockRegister />);
+    const inpuElement = component.getByPlaceholderText(/Username.../i) as HTMLInputElement;
+    const buttonElement = component.getByRole("button", {name:"Send"});
+    fireEvent.change(inpuElement, { target: { value: "Teste" } });
+    fireEvent.click(buttonElement);
+    const userData = await component.findByTestId("userData");
+    expect(userData).toBeInTheDocument();
+  });
+
+
 });

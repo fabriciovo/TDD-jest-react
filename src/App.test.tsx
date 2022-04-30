@@ -1,28 +1,34 @@
-import { render, fireEvent, waitFor } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { BrowserRouter } from "react-router-dom";
 
 import App from "./App";
 
-const mockUser = jest.fn();
+const MockApp = () => {
+  return (
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  );
+};
 
 describe("App", () => {
- 
-
-
   //checar input username
-  it("Should render input element", () => {
-    const component = render(<App />);
-    const inpuElement = component.getByPlaceholderText(/Username.../i);
-    expect(inpuElement).toBeInTheDocument();
+
+  it("Should render title", () => {
+    const { getByText } = render(<MockApp />);
+    expect(getByText("Hello World!")).toBeTruthy();
   });
 
-  it("Should be able to type in input", () => {
-    const component = render(<App />);
-    const inpuElement = component.getByPlaceholderText(/Username.../i) as HTMLInputElement;
-    const buttonElement = component.getByRole("button", {name:"Send"});
-    fireEvent.change(inpuElement, { target: { value: "Teste" } });
-    fireEvent.click(buttonElement);
-    expect(inpuElement.value).toBe("");
+  it("Should render Create Account Link", () => {
+    render(<MockApp />);
+    const link = screen.getByRole("link", { name: /Create Account/i });
+    expect(link.getAttribute("href")).toBe("/Register");
   });
 
+  it("Should render Create Account Page", async () => {
+    render(<MockApp />);
+    const linkButton = screen.getByText(/Create Account/);
+    fireEvent.click(linkButton, { button: 0 });
+    expect(screen.getByText("Create Account")).toBeInTheDocument();
+  });
 });

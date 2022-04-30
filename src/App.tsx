@@ -1,15 +1,10 @@
-import { useState } from "react";
+import { Link } from "react-router-dom";
 
 function App() {
-  const [username, setUsername] = useState<string>("");
   return (
     <div className="App">
-      <input
-        placeholder="Username..."
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-      />
-      <button onClick={()=> setUsername("")}>Send</button>
+      Hello World!
+      <Link to={"/Register"}>Create Account</Link>
     </div>
   );
 }

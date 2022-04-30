@@ -20,7 +20,9 @@ export default {
   // collectCoverage: false,
 
   // An array of glob patterns indicating a set of files for which coverage information should be collected
-  // collectCoverageFrom: undefined,
+  collectCoverageFrom: [
+    "src/**/*.{js,jsx,ts,tsx}"
+  ],
 
   // The directory where Jest should output its coverage files
   // coverageDirectory: undefined,
@@ -109,7 +111,7 @@ export default {
   // reporters: undefined,
 
   // Automatically reset mock state before every test
-  // resetMocks: false,
+  resetMocks: false,
 
   // Reset the module registry before running each individual test
   // resetModules: false,

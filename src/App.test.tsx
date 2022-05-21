@@ -1,27 +1,39 @@
-import { render, screen, act } from "@testing-library/react";
-import App from "./App";
+import pokemonGet from "./axios/api";
+import mockAxios from "axios";
 
-describe("App", () => {
-  beforeEach(() => {
-    jest.mock("./__mock__/axios");
-  });
+const pokemonMock = {
+  id: 1,
+  num: "001",
+  name: "Bulbasaur",
+  img: "http://www.serebii.net/pokemongo/pokemon/001.png",
+  type: ["Grass", "Poison"],
+};
 
-  it("Should loading pokemons", async () => {
-    render(<App />);
-    await act(async () => {
-      expect(screen.getByText("Loading...")).toBeInTheDocument();
-    });
-  });
 
-  it("Should find Pokemon by test id", async () => {
-    render(<App />);
-    const pokemonDivElement = await screen.findByTestId(`pokemon-div-0`);
-    expect(pokemonDivElement).toBeInTheDocument();
-  });
+jest.mock("axios", () => ({
+  __esModule: true,
+  default: {
+    get: jest.fn().mockResolvedValue({
+      data: {
+        pokemon: [
+          {
+            id: 1,
+            num: "001",
+            name: "Bulbasaur",
+            img: "http://www.serebii.net/pokemongo/pokemon/001.png",
+            type: ["Grass", "Poison"],
+          },
+        ],
+      },
+    }),
+  },
+}));
 
-  it("Should find All Pokemons by test id", async () => {
-    render(<App />);
-    const pokemons = await screen.findAllByTestId(/pokemon-div/i);
-    expect(pokemons.length).toBe(151);
+describe("Api", () => {
+  afterEach(jest.clearAllMocks);
+  test("should return a name", async () => {
+    const result = await pokemonGet();
+    expect(result).toStrictEqual([pokemonMock]);
+    expect(mockAxios.get).toBeCalledTimes(3);
   });
 });
